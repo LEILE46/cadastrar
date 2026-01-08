@@ -1,23 +1,38 @@
-from django.shortcuts import render
-from .models import Usuario
-def Login(request):
-    msg=""
-    logado=False
-    if request.method =="POST":
-        user=request.POST.get("user")
-        senha=request.POST.get("senha")
-        if not user or not senha:
-            msg="preencha todos os campos!"
-        elif Usuario.objects.filter(nome=user,senha=senha).exists():
-            msg=f"Login bem-sucedido! Bem-vindo ,{user}."
-            logado=True
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+
+def cadastro(request):
+    nome_cadastrado = None
+    msg = None
+    logado = False
+
+    if request.method == "POST":
+        # Se for para apagar todos os usuários
+        if "apagar_usuarios" in request.POST:
+            User.objects.all().delete()
+            msg = "Todos os usuários foram apagados."
         else:
-            msg="usuario ou senha inválidos."
+            # Cadastro de novo usuário
+            user = request.POST.get("user")
+            senha = request.POST.get("senha")
 
-    context={
-        "usuarios":Usuario.objects.all(),
+            if User.objects.filter(username=user).exists():
+                msg = "Usuário já existe"
+            else:
+                novo_usuario = User.objects.create_user(
+                    username=user,
+                    password=senha
+                )
+                novo_usuario.save()
+                nome_cadastrado = user
+                logado = True
+
+    # Buscar a lista de usuários **depois de qualquer ação**
+    usuarios = User.objects.all()
+
+    return render(request, "meuapp/index.html", {
+        "nome_cadastrado": nome_cadastrado,
         "msg": msg,
-        "logado":logado
-    }
-    return render(request,"meuapp/index.html",context)
-
+        "usuarios": usuarios,
+        "logado": logado,
+    })

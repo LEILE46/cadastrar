@@ -14,9 +14,7 @@ def cadastro(request):
     if request.method == 'POST':
         nome = request.POST.get('user')
         senha = request.POST.get('senha')
-
-        # aqui você salva no banco (exemplo)
-        # Usuario.objects.create(nome=nome, senha=senha)
+        Usuario.objects.create(nome=nome, senha=senha)
 
         nome_cadastrado = nome
 

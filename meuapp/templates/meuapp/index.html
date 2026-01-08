@@ -9,7 +9,7 @@
 <body>
 
 <div class="container">
-    <h1>Cadastro</h1>
+    <h1>Cadastro de Usuário</h1>
 
     <form method="post">
         {% csrf_token %}
@@ -23,24 +23,31 @@
         <button type="submit">Cadastrar</button>
     </form>
 
-    {% if nome_cadastrado %}
-        <p class="msg">Usuário cadastrado: <strong>{{ nome_cadastrado }}</strong></p>
-    {% endif %}
+
+    <form method="post" style="margin-top: 10px;">
+        {% csrf_token %}
+        <button type="submit" name="apagar_usuarios" class="apagar">Apagar Todos os Usuários</button>
+    </form>
+
 
     {% if msg %}
-        <p class="msg">{{ msg }}</p>
+        <p class="msg {% if not logado %}error{% endif %}">{{ msg }}</p>
     {% endif %}
 
-    {% if logado %}
+    {% if nome_cadastrado %}
+        <p class="msg">Usuário cadastrado com sucesso: <strong>{{ nome_cadastrado }}</strong></p>
+    {% endif %}
+
     <div class="lista">
         <h2>Lista de Usuários</h2>
         <ul>
             {% for usuario in usuarios %}
-                <li>Nome: {{ usuario.nome }}</li>
+                <li>{{ usuario.username }}</li>
+            {% empty %}
+                <li>Nenhum usuário cadastrado</li>
             {% endfor %}
         </ul>
     </div>
-    {% endif %}
 </div>
 
 </body>

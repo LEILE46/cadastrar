@@ -86,3 +86,10 @@ button:hover {
     border-radius: 4px;
     font-size: 14px;
 }
+button { margin-top: 15px; padding: 10px 20px; width: 100%; cursor: pointer; }
+.msg { margin-top: 15px; color: green; text-align: center; }
+.error { color: red; }
+
+ul { list-style: none; padding-left: 0; }
+li { padding: 5px 0; border-bottom: 1px solid #ddd; }
+.apagar { background-color: #f44336; color: white; border: none; }
