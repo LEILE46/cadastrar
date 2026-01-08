@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Cadastro</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="user">Usuário</label>
+        <input type="text" id="user" name="user" required>
+
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    {% if nome_cadastrado %}
+        <p class="msg">Usuário cadastrado: <strong>{{ nome_cadastrado }}</strong></p>
+    {% endif %}
+
+    {% if msg %}
+        <p class="msg">{{ msg }}</p>
+    {% endif %}
+
+    {% if logado %}
+    <div class="lista">
+        <h2>Lista de Usuários</h2>
+        <ul>
+            {% for usuario in usuarios %}
+                <li>Nome: {{ usuario.nome }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
